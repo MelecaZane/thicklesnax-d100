@@ -16,8 +16,11 @@ def home():
 @flask_app.route('/table')
 def table():
     filename = request.args.get('file')
-    return render_template('table.html',
-                           data=functions.parse_csv(os.path.join(flask_app.config['UPLOAD_FOLDER'], filename)))
+    try:
+        return render_template('table.html',
+                               data=functions.parse_csv(os.path.join(flask_app.config['UPLOAD_FOLDER'], filename)))
+    except:
+        return redirect(url_for('home'))
 
 @flask_app.route('/upload', methods=['POST'])
 def upload():

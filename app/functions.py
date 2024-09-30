@@ -1,3 +1,4 @@
+import os
 
 def parse_csv(file):
     file_list = []
@@ -5,6 +6,7 @@ def parse_csv(file):
         for line in f:
             key, value = line.strip().split(',')
             file_list.append((key, value))
+    os.remove(file)
     return file_list
 
 def allowed_file(filename):
