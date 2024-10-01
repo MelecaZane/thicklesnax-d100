@@ -11,7 +11,30 @@
         border-collapse: collapse;
     }
 </style>
+<script>
+    function downloadCSV() {
+        let table = document.querySelector("table");
+        let rows = table.querySelectorAll("tr");
+        let csvContent = "";
+
+        rows.forEach((row, index) => {
+            if (index === 0) return; // Skip the first row (headings)
+            let cols = row.querySelectorAll("td, th");
+            let rowData = [];
+            cols.forEach(col => rowData.push(col.innerText));
+            csvContent += rowData.join(",") + "\n";
+        });
+
+        let blob = new Blob([csvContent], { type: 'text/csv' });
+        let url = URL.createObjectURL(blob);
+        let a = document.createElement("a");
+        a.setAttribute("href", url);
+        a.setAttribute("download", "table_data.csv");
+        a.click();
+    }
+</script>
 <body>
+    <button onclick="downloadCSV()">Export</button>
     <div id="data_table">
         <table>
             <thead>
