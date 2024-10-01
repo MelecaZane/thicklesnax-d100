@@ -36,6 +36,9 @@
     function addRow() {
         let newRoll = document.getElementById("newRoll").value;
         let newResult = document.getElementById("NewResult").value;
+        if (newRoll === ""){
+            return
+        }
         let table = document.getElementById("mainTable");
         let newRow = document.createElement("tr");
         newRow.innerHTML = `<td>${newRoll}</td><td>${newResult}</td>`;

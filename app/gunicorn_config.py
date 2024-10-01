@@ -1,6 +1,6 @@
 import os
 
-
+#gunicorn --config gunicorn_config.py app:flask_app
 
 workers = int(os.environ.get('GUNICORN_PROCESSES', '2'))
 
