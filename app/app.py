@@ -4,6 +4,8 @@ import os
 import functions
 
 UPLOAD_FOLDER = 'uploads'
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
 
 flask_app = Flask(__name__, static_url_path='/static')
 flask_app.secret_key = os.environ.get('FLASK_SECRET_KEY')
