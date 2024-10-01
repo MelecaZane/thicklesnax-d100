@@ -44,6 +44,13 @@
         document.getElementById("newRoll").value = "";
         document.getElementById("NewResult").value = "";
     }
+
+    window.addEventListener('beforeunload', function (e) {
+        // Cancel the event
+        e.preventDefault();
+        // Chrome requires returnValue to be set
+        e.returnValue = 'Are you sure you want to leave?';
+    });
 </script>
 <body>
     <button onclick="downloadCSV()">Export</button>
