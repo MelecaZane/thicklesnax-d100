@@ -45,6 +45,16 @@
         document.getElementById("NewResult").value = "";
     }
 
+    function pickRandomRow() {
+        const table = document.getElementById('mainTable');
+        const rows = table.getElementsByTagName('tr');
+        const randomIndex = Math.floor(Math.random() * (rows.length - 1)) + 1; // Exclude header row
+        const selectedRow = rows[randomIndex];
+        const roll = selectedRow.cells[0].innerText;
+        const result = selectedRow.cells[1].innerText;
+        document.getElementById('selectedRow').innerText = `${roll}: ${result}`;
+    }
+
     window.addEventListener('beforeunload', function (e) {
         // Cancel the event
         e.preventDefault();
@@ -54,7 +64,9 @@
 </script>
 <body>
     <button onclick="downloadCSV()">Export</button>
-    <button onclick="window.location.href = '/';">Clear</button>
+    <button onclick="window.location.href = '/';">Clear</button><br>
+    <button id="rollButton" onclick="pickRandomRow()">Roll</button>
+    <div id="selectedRow" style="color:brown"></div>
     <div id="data_table">
         <table id="mainTable">
             <thead>
@@ -63,7 +75,7 @@
                     <th>Result</th>
                 </tr>
                 {% for row in data %}
-                    <tr>
+                    <tr id="{{ row[0] }}">
                         <td>{{ row[0] }}</td>
                         <td>{{ row[1] }}</td>
                     </tr>
