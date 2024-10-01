@@ -32,11 +32,23 @@
         a.setAttribute("download", "table_data.csv");
         a.click();
     }
+
+    function addRow() {
+        let newRoll = document.getElementById("newRoll").value;
+        let newResult = document.getElementById("NewResult").value;
+        let table = document.getElementById("mainTable");
+        let newRow = document.createElement("tr");
+        newRow.innerHTML = `<td>${newRoll}</td><td>${newResult}</td>`;
+        table.appendChild(newRow);
+        // Clear the input fields
+        document.getElementById("newRoll").value = "";
+        document.getElementById("NewResult").value = "";
+    }
 </script>
 <body>
     <button onclick="downloadCSV()">Export</button>
     <div id="data_table">
-        <table>
+        <table id="mainTable">
             <thead>
                 <tr>
                     <th>Roll</th>
@@ -50,6 +62,15 @@
                 {% endfor %}
             </thead>
         </table>
+        <table>
+            <thead>
+                <tr>
+                    <td><input id="newRoll"></td>
+                    <td><input id="NewResult"></td>
+                </tr>
+            </thead>
+        </table>
+        <button onclick="addRow()">Submit Row</button>
     </div>
 </body>
 </html>
