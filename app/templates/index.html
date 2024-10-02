@@ -10,5 +10,8 @@
     <form action="/upload" method="post" enctype="multipart/form-data">
         <input type="file" name="file" id="file">
         <input type="submit" value="Upload">
+    </form>
+    <br>
+    <button onclick="window.location.href='{{ url_for('''table''', is_new=True) }}';">New Table</button>
 </body>
 </html>

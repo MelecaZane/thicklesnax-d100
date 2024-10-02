@@ -99,13 +99,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for row in data %}
-                        <tr id="{{ row[0] }}">
-                            <td class="delete-cell"><button class="delete-button" onclick="deleteRow(this)">-</button></td>
-                            <td>{{ row[0] }}</td>
-                            <td>{{ row[1] }}</td>
-                        </tr>
-                    {% endfor %}
+                    {% if data == False %}
+
+                    {% else %}
+                        {% for row in data %}
+                            <tr id="{{ row[0] }}">
+                                <td class="delete-cell"><button class="delete-button" onclick="deleteRow(this)">-</button></td>
+                                <td>{{ row[0] }}</td>
+                                <td>{{ row[1] }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
                 </tbody>
             </table>
             <table>

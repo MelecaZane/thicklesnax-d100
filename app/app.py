@@ -18,6 +18,10 @@ def home():
 @flask_app.route('/table')
 def table():
     filename = request.args.get('file')
+    is_new = request.args.get('is_new')
+    if is_new:
+        return render_template('table.html',
+                               data=False)
     try:
         return render_template('table.html',
                                data=functions.parse_csv(os.path.join(flask_app.config['UPLOAD_FOLDER'], filename)))
