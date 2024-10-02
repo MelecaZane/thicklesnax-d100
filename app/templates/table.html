@@ -10,21 +10,33 @@
         border: 1px solid black;
         border-collapse: collapse;
     }
+
+    th:first-child, td:first-child, table:first-child {
+        border: none;
+    }
+
+    .delete-cell {
+        border: none;
+    }
+    
 </style>
 <script>
     function downloadCSV() {
         let table = document.querySelector("table");
         let rows = table.querySelectorAll("tr");
         let csvContent = "";
-
+    
         rows.forEach((row, index) => {
             if (index === 0) return; // Skip the first row (headings)
             let cols = row.querySelectorAll("td, th");
             let rowData = [];
-            cols.forEach(col => rowData.push(col.innerText));
+            cols.forEach((col, colIndex) => {
+                if (colIndex === 0) return; // Skip the first column (delete button)
+                rowData.push(col.innerText);
+            });
             csvContent += rowData.join(",") + "\n";
         });
-
+    
         let blob = new Blob([csvContent], { type: 'text/csv' });
         let url = URL.createObjectURL(blob);
         let a = document.createElement("a");
@@ -39,9 +51,9 @@
         if (newRoll === ""){
             return
         }
-        let table = document.getElementById("mainTable");
+        let table = document.getElementById("mainTable").querySelector("tbody");
         let newRow = document.createElement("tr");
-        newRow.innerHTML = `<td>${newRoll}</td><td>${newResult}</td>`;
+        newRow.innerHTML = `<td class="delete-cell"><button class="delete-button" onclick="deleteRow(this)">-</button></td><td>${newRoll}</td><td>${newResult}</td>`;
         table.appendChild(newRow);
         // Clear the input fields
         document.getElementById("newRoll").value = "";
@@ -58,6 +70,12 @@
         document.getElementById('selectedRow').innerText = `${roll}: ${result}`;
     }
 
+    function deleteRow(button) {
+        // Get the row to be deleted
+        let row = button.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+    }
+
     window.addEventListener('beforeunload', function (e) {
         // Cancel the event
         e.preventDefault();
@@ -71,29 +89,35 @@
     <button id="rollButton" onclick="pickRandomRow()">Roll</button>
     <div id="selectedRow" style="color:brown"></div>
     <div id="data_table">
-        <table id="mainTable">
-            <thead>
-                <tr>
-                    <th>Roll</th>
-                    <th>Result</th>
-                </tr>
-                {% for row in data %}
-                    <tr id="{{ row[0] }}">
-                        <td>{{ row[0] }}</td>
-                        <td>{{ row[1] }}</td>
+        <div class="row-container">
+            <table id="mainTable">
+                <thead>
+                    <tr>
+                        <th class="delete-cell"></th>
+                        <th>Roll</th>
+                        <th>Result</th>
                     </tr>
-                {% endfor %}
-            </thead>
-        </table>
-        <table>
-            <thead>
-                <tr>
-                    <td><input id="newRoll"></td>
-                    <td><input id="NewResult"></td>
-                </tr>
-            </thead>
-        </table>
-        <button onclick="addRow()">Submit Row</button>
+                </thead>
+                <tbody>
+                    {% for row in data %}
+                        <tr id="{{ row[0] }}">
+                            <td class="delete-cell"><button class="delete-button" onclick="deleteRow(this)">-</button></td>
+                            <td>{{ row[0] }}</td>
+                            <td>{{ row[1] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                    <tr>
+                        <td><input id="newRoll"></td>
+                        <td><input id="NewResult"></td>
+                    </tr>
+                </thead>
+            </table>
+            <button onclick="addRow()">Submit Row</button>
+        </div>
     </div>
 </body>
 </html>
