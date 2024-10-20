@@ -12,6 +12,7 @@ flask_app.secret_key = os.environ.get('FLASK_SECRET_KEY')
 flask_app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @flask_app.route('/')
+@flask_app.route('/home')
 def home():
     return render_template('index.html')
 
@@ -43,3 +44,7 @@ def upload():
         flash('File uploaded successfully')
         return redirect(url_for('table', file=filename))
     return redirect(url_for('home'))
+
+@flask_app.route('/dice')
+def dice():
+    return render_template('dice.html')
